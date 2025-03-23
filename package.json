@@ -1,0 +1,22 @@
+{
+	"dependencies": {
+		"@activeadmin/activeadmin": "4.0.0-beta13",
+		"autoprefixer": "^10.4.20",
+		"postcss": "^8.4.47",
+		"postcss-cli": "^11.0.0",
+		"postcss-import": "^16.1.0",
+		"postcss-nesting": "^13.0.1",
+		"tailwindcss": "^3.4.14"
+	},
+	"scripts": {
+		"build:css": "tailwindcss -i ./app/assets/stylesheets/active_admin.css -o ./app/assets/builds/active_admin.css --minify -c tailwind-active_admin.config.js",
+		"db:delete:schema": "rm -rf db/schema.rb",
+		"db:restart": "sudo systemctl restart postgresql",
+		"db:restart:mac": "brew services restart postgresql",
+		"db:prepare": "rails db:drop db:create db:migrate db:seed && yarn populate",
+		"db:reset": "yarn db:delete:schema && yarn db:restart && yarn db:prepare",
+		"db:reset:mac": "yarn db:delete:schema && yarn db:restart:mac && yarn db:prepare",
+		"credentials:edit": "EDITOR='code --wait' rails credentials:edit",
+		"populate": "rails populate:test_data"
+	}
+}

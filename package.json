@@ -13,10 +13,10 @@
 		"db:delete:schema": "rm -rf db/schema.rb",
 		"db:restart": "sudo systemctl restart postgresql",
 		"db:restart:mac": "brew services restart postgresql",
-		"db:prepare": "rails db:drop db:create db:migrate db:seed && yarn populate",
+		"db:prepare": "rails db:drop db:create db:migrate db:seed",
 		"db:reset": "yarn db:delete:schema && yarn db:restart && yarn db:prepare",
 		"db:reset:mac": "yarn db:delete:schema && yarn db:restart:mac && yarn db:prepare",
 		"credentials:edit": "EDITOR='code --wait' rails credentials:edit",
-		"populate": "rails populate:test_data"
+		"populate": "rails populate:test_users populate:test_cars populate:test_problems"
 	}
 }

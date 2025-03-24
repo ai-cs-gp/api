@@ -1,5 +1,7 @@
 source "https://rubygems.org"
 
+ruby "3.3.5"
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.0.2"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
@@ -61,7 +63,7 @@ gem "awesome_print"
 gem "aasm"
 gem "marcel"
 gem "image_processing"
-# gem "graphiql-rails", group: :development
+gem "annotate", "~> 2.6"
 
 group :development do
   # gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
@@ -83,5 +85,4 @@ group :development do
   gem "syntax_tree-rbs"
   gem "pry"
   gem "byebug"
-  gem "annotate"
 end

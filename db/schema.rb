@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_23_161850) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_24_010235) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -48,7 +48,72 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_23_161850) do
     t.index ["email"], name: "index_admin_users_on_email", unique: true
   end
 
+  create_table "cars", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "plate_number", null: false
+    t.string "color", null: false
+    t.string "brand", null: false
+    t.string "model", null: false
+    t.integer "year", null: false
+    t.bigint "member_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_cars_on_member_id"
+  end
+
+  create_table "fixing_cars", force: :cascade do |t|
+    t.string "state", default: "pending", null: false
+    t.datetime "started_at"
+    t.datetime "finished_at"
+    t.bigint "car_id", null: false
+    t.bigint "technician_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["car_id"], name: "index_fixing_cars_on_car_id"
+    t.index ["technician_id"], name: "index_fixing_cars_on_technician_id"
+  end
+
+  create_table "part_usages", force: :cascade do |t|
+    t.integer "quantity", null: false
+    t.decimal "price", precision: 10, scale: 2, null: false
+    t.bigint "part_id", null: false
+    t.bigint "solution_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["part_id"], name: "index_part_usages_on_part_id"
+    t.index ["solution_id"], name: "index_part_usages_on_solution_id"
+  end
+
+  create_table "parts", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description", null: false
+    t.string "brand", null: false
+    t.string "model", null: false
+    t.integer "year", null: false
+    t.bigint "member_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_parts_on_member_id"
+  end
+
+  create_table "problems", force: :cascade do |t|
+    t.string "description", null: false
+    t.bigint "fixing_car_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["fixing_car_id"], name: "index_problems_on_fixing_car_id"
+  end
+
+  create_table "solutions", force: :cascade do |t|
+    t.string "description", null: false
+    t.bigint "problem_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["problem_id"], name: "index_solutions_on_problem_id"
+  end
+
   create_table "users", force: :cascade do |t|
+    t.string "type", null: false
     t.string "email"
     t.string "phone"
     t.string "password_digest"
@@ -84,5 +149,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_23_161850) do
   end
 
   add_foreign_key "admin_users", "admin_users", column: "banned_by_id"
+  add_foreign_key "cars", "users", column: "member_id"
+  add_foreign_key "fixing_cars", "cars"
+  add_foreign_key "fixing_cars", "users", column: "technician_id"
+  add_foreign_key "part_usages", "parts"
+  add_foreign_key "part_usages", "solutions"
+  add_foreign_key "parts", "users", column: "member_id"
+  add_foreign_key "problems", "fixing_cars"
+  add_foreign_key "solutions", "problems"
   add_foreign_key "users", "admin_users", column: "banned_by_id"
 end

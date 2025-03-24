@@ -232,7 +232,7 @@ ActiveAdmin.setup do |config|
                  style: "font-weight: bold;"
                },
                priority: 0
-      # menu.add label: "Administration", priority: 30
+      menu.add label: "Administration", priority: 30
     end
   end
 
